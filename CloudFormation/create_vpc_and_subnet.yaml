@@ -1,0 +1,34 @@
+# This CloudFormation template creates a Virtual Private Cloud (VPC) and a subnet in the AWS region eu-west-3 (Paris).
+# The VPC uses the CIDR block 10.1.0.0/16 and is configured without DNS support or hostnames.
+# A single subnet is created in availability zone eu-west-3a with a smaller CIDR block of 10.1.0.0/24.
+
+# Specifies the CloudFormation template format version (keep as is for compatibility)
+AWSTemplateFormatVersion: '2010-09-09'
+
+# Description of what this CloudFormation stack will create
+Description: Create subnet in eu-west-3
+
+# All AWS resources to be created are listed under the Resources block
+Resources:
+
+  # Define a Virtual Private Cloud (VPC)
+  myVPC:
+    Type: AWS::EC2::VPC  # Specifies the resource type is a VPC
+    Properties:
+      CidrBlock: '10.1.0.0/16'  # IP range for the VPC (can hold 65,536 IPs)
+      EnableDnsSupport: 'false'  # Disables internal DNS resolution for instances
+      EnableDnsHostnames: 'false'  # Disables assigning DNS hostnames to instances
+      Tags:
+        - Key: Name
+          Value: 'zaferSteele_paris_vpc'  # A human-readable name tag for the VPC
+
+  # Define a subnet within the above VPC
+  mySubnet:
+    Type: AWS::EC2::Subnet  # Specifies the resource type is a Subnet
+    Properties:
+      VpcId: !Ref myVPC  # Associates the subnet with the VPC defined above
+      CidrBlock: '10.1.0.0/24'  # IP range for the subnet (256 IPs within the VPC range)
+      AvailabilityZone: 'eu-west-3a'  # Places the subnet in a specific AZ within the region
+      Tags:
+        - Key: Name
+          Value: 'zaferSteele_paris-subnet-1'  # A name tag for easy identification

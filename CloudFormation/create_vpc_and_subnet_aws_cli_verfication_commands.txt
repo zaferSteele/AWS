@@ -1,0 +1,11 @@
+# change the "region" value if different 
+# change the "stack-name" value if different
+# change the "template-body" value to the location of your yaml file
+
+# issue this command to create the vpc and associated subnet using the yaml file:
+
+aws --region eu-west-3 cloudformation create-stack --stack-name paris-vpc-1 --template-body file://create_vpc_and_subnet.yaml
+
+# issue this command to verify the creation of the resource
+
+aws --region eu-west-3 cloudformation describe-stacks --stack-name paris-vpc-1
